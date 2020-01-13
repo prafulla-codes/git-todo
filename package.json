@@ -41,6 +41,7 @@
 		"vscode-test": "^1.2.2"
 	},
 	"dependencies": {
+		"git-remote-origin-url": "^3.0.0",
 		"git-repo-info": "^2.1.1",
 		"git-repo-name": "^1.0.1",
 		"git-username": "^1.0.0"

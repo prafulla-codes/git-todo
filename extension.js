@@ -6,6 +6,7 @@ const path = require('path')
 const getRepoInfo = require('git-repo-info');
 const repoName = require('git-repo-name');
 const git_username = require('git-username')
+const gitRemoteOriginUrl = require('git-remote-origin-url');
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 
@@ -33,7 +34,7 @@ function activate(context) {
 		const panel = vscode.window.createWebviewPanel('todoview','Todos',vscode.ViewColumn.Beside,{});
 		var info = getRepoInfo(vscode.workspace.rootPath);
 		console.log(info);
-
+		let origin =null;
 		if(info.root == null)
 		{
 			panel.webview.html=`
@@ -50,9 +51,16 @@ function activate(context) {
 		}
 		else
 		{
+		gitRemoteOriginUrl(vscode.workspace.rootPath).then(res=>{
+			origin = res;
+			panel.webview.html=getWebViewContent(info,origin);
+
+		}).catch(err=>{
+			panel.webview.html=`<html><head><title>Todos</title></head><body style='color:red'><h1> Make sure your git repository has a remote origin </h1> </body></html>`
+
+		})	
 		// Display a message box to the user
 		vscode.window.showInformationMessage('Welcome to git todos!');
-		panel.webview.html=getWebViewContent(info);
 		}
 		
 	
@@ -69,7 +77,7 @@ exports.activate = activate;
 // this method is called when your extension is deactivated
 function deactivate() {}
 
-function getWebViewContent(info){
+function getWebViewContent(info,origin){
 	console.log(git_username('cwd:vscode.workspace.workspaceFolders'));
 	return `
 	<html>
@@ -77,9 +85,9 @@ function getWebViewContent(info){
 	<title> Todos </title>
 	</head>
 	<body style="background-color:#fff;color:black;text-align:center;margin:0;padding:0;box-sizing:border-box">
-	<div style="background-color:black;color:white;width:100%;padding:15px;text-align:left">
-		<h3> Your Tasks </h3>
-		<h4 style='color:lightgreen'> ${info.branch}</h4>
+	<div style="background-color:black;color:white;width:100%;padding:15px;text-align:left;margin:0">
+		<h3> Your Tasks</h3>
+		<h4 style='color:lightgreen'>  ${origin} </h4>
 	</div>
 	</body>
 	</html>
