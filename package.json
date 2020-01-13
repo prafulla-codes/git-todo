@@ -1,0 +1,48 @@
+{
+	"name": "git-todo",
+	"displayName": "git-todo",
+	"description": "Enhance your workflow using todos for your projects!",
+	"version": "0.0.1",
+	"engines": {
+		"vscode": "^1.41.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onCommand:extension.helloWorld",
+		"onCommand:git.todos"
+	],
+	"main": "./extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "extension.helloWorld",
+				"title": "Hello World"
+			},
+			{
+				"command": "git.todos",
+				"title": "Git Todos"
+			}
+		]
+	},
+	"scripts": {
+		"test": "node ./test/runTest.js"
+	},
+	"devDependencies": {
+		"@types/glob": "^7.1.1",
+		"@types/mocha": "^5.2.7",
+		"@types/node": "^12.11.7",
+		"@types/vscode": "^1.41.0",
+		"eslint": "^6.6.0",
+		"glob": "^7.1.5",
+		"mocha": "^6.2.2",
+		"typescript": "^3.6.4",
+		"vscode-test": "^1.2.2"
+	},
+	"dependencies": {
+		"git-repo-info": "^2.1.1",
+		"git-repo-name": "^1.0.1",
+		"git-username": "^1.0.0"
+	}
+}
